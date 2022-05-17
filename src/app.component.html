@@ -1,0 +1,13 @@
+<div class="control-section">
+    <div align='center'>
+    <button ejs-button class='e-flat' (click)='add($event)'>add </button>
+    <button ejs-button class='e-flat' (click)='remove($event)'>remove </button>
+        <ejs-chart #chart style='display:block' align='center' 
+            id='chartcontainer' 
+            [title]='title' [primaryXAxis]='primaryXAxis' [primaryYAxis]='primaryYAxis'
+            [tooltip]='tooltip' 
+            (load)='load($event)' 
+            [chartArea]='chartArea' [width]='width'>           
+        </ejs-chart>
+    </div>
+</div>

@@ -2,12 +2,13 @@
     <div align='center'>
     <button ejs-button class='e-flat' (click)='add($event)'>add </button>
     <button ejs-button class='e-flat' (click)='remove($event)'>remove </button>
-        <ejs-chart #chart style='display:block' align='center' 
-            id='chartcontainer' 
-            [title]='title' [primaryXAxis]='primaryXAxis' [primaryYAxis]='primaryYAxis'
-            [tooltip]='tooltip' 
-            (load)='load($event)' 
-            [chartArea]='chartArea' [width]='width'>           
+        <ejs-chart #chart style='display:block' align='center' id='chartcontainer' [title]='title' [primaryXAxis]='primaryXAxis' [primaryYAxis]='primaryYAxis'
+            [tooltip]='tooltip' (load)='load($event)' [chartArea]='chartArea' [width]='width'>
+            <e-series-collection>
+                <e-series [dataSource]='items' type='Line' xName='CustomerID' yName='Freight' name='Germany' width=2 [marker]='marker'> </e-series>
+                <e-series [dataSource]='items' type='Line' xName='CustomerID' yName='ShipVia' name='England' width=2 [marker]='marker'> </e-series>
+                <e-series [dataSource]='items' type='Line' xName='CustomerID' yName='OrderID' name='Europe' width=2 [marker]='marker'> </e-series>
+            </e-series-collection>
         </ejs-chart>
     </div>
 </div>

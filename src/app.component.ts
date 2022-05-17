@@ -1,6 +1,6 @@
-import { Component, ViewEncapsulation, ViewChild } from '@angular/core';
-import { ILoadedEventArgs, ChartComponent, ChartTheme } from '@syncfusion/ej2-angular-charts';
-import { DataManager, Query, ODataV4Adaptor } from '@syncfusion/ej2-data';
+import { Component, ViewEncapsulation, ViewChild, AfterViewInit } from '@angular/core';
+import { ILoadedEventArgs, ChartComponent, ChartTheme, Category } from '@syncfusion/ej2-angular-charts';
+import { DataManager, Query, ODataV4Adaptor, ReturnOption } from '@syncfusion/ej2-data';
 import { Browser } from '@syncfusion/ej2-base';
 
 /**
@@ -15,16 +15,22 @@ import { Browser } from '@syncfusion/ej2-base';
     styleUrls: ['app.component.css'],
     encapsulation: ViewEncapsulation.None
 })
-export class AppComponent {
+export class AppComponent implements AfterViewInit {
     @ViewChild("chart")
     public chart: ChartComponent;
 
     public items: object[];
 
-    public dataSource: DataManager;
-
     public ngOnInit(): void {
-        this.dataSource = new DataManager({ url: SERVICE_URI, adaptor: new ODataV4Adaptor() });
+        new DataManager({ url: SERVICE_URI, adaptor: new ODataV4Adaptor() })
+        .executeQuery(new Query().take(8)).then((e: ReturnOption) => {
+            this.items = e.result as object[];
+            console.log(this.items);
+        }).catch((e) => true);
+    }
+
+    public ngAfterViewInit() {
+
     }
 
     //Initializing Primary X Axis
@@ -61,11 +67,10 @@ export class AppComponent {
     // custom code end
     public title: string = 'Inflation - Consumer Price';
 
-    add(event) {
+    add() {
         this.chart.addSeries([{
-            type: 'StepLine',
-            dataSource: this.dataSource,
-            query: new Query().take(8),
+            type: 'Column',
+            dataSource: this.items,
             width: 2,
             xName: 'CustomerID', 
             yName: 'OrderID', 
@@ -73,7 +78,7 @@ export class AppComponent {
         }]);
     }
 
-    remove(event) {
+    remove() {
         this.chart.removeSeries(1);
     }
 
